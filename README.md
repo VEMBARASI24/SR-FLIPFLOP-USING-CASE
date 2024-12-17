@@ -54,32 +54,38 @@ Developed by:VEMBARASI.A.R
 RegisterNumber:24900729
 ```
 ```
-module ff(s,r,clk,q,qbar);
-input s,r,clk;
-output reg q;
-output reg qbar;
-initial 
-begin
-q=0;
-qbar=1;
-end
-always @(posedge clk)
-begin
-   q=s|(~r&q);
-   qbar=r|(~s&~q);
-end
+ module ff (s, r, clk, rst, q);
+ input s, r, clk, rst;
+  output reg q;
+
+  always @(posedge clk or posedge rst)
+ begin
+    if (rst)
+      q <= 0; // Reset the flip-flop
+    else
+ begin
+      case ({s, r}) // S and R control the behavior
+        2'b00: q <= q;    // No change
+        2'b01: q <= 0;    // Reset
+        2'b10: q <= 1;    // Set
+        2'b11: q <= 0;    // Invalid state, typically treated as reset
+      endcase
+    end
+  end
 endmodule
+
+
 
 
 
 */
 
 **RTL LOGIC FOR FLIPFLOPS**
-![Screenshot (106)](https://github.com/user-attachments/assets/b3958632-f9b8-48a7-92e0-adff464c3d15)
+![Screenshot (110)](https://github.com/user-attachments/assets/45d1b46f-7bc2-4397-b400-f1f41fcfca69)
 
 
 **TIMING DIGRAMS FOR FLIP FLOPS**
-![Screenshot (107)](https://github.com/user-attachments/assets/95698e4e-0e2e-4d90-95dd-b4ad47e1b2fc)
+![Screenshot (111)](https://github.com/user-attachments/assets/655e272e-84e1-4405-b633-2839d84b4be3)
 
 
 **RESULTS**
